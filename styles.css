@@ -311,9 +311,11 @@ p { margin: 0; }
   outline: 1px solid rgba(214, 194, 138, .4);
   outline-offset: 10px;
   user-select: none;
+  -webkit-user-select: none;
   touch-action: pan-y;
+  cursor: ew-resize;
 }
-.compare img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.compare img { pointer-events: none; -webkit-user-drag: none; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .compare-before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
 .compare-handle {
   position: absolute; top: 0; bottom: 0; left: var(--pos);
@@ -333,7 +335,8 @@ p { margin: 0; }
 }
 .compare-range {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  margin: 0; opacity: 0; cursor: ew-resize;
+  margin: 0; opacity: 0;
+  pointer-events: none; /* o arraste é feito pelo script; o range fica para o teclado */
 }
 .compare:has(.compare-range:focus-visible) { outline: 2px solid var(--gold); }
 .compare-tag {

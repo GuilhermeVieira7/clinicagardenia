@@ -51,6 +51,25 @@
   const setPos = (v) => cmp.style.setProperty("--pos", `${v}%`);
   range.addEventListener("input", () => setPos(range.value));
 
+  // Arrastar com o dedo ou o mouse em qualquer ponto da foto (o iPhone não move
+  // um range invisível a menos que se toque exatamente no polegar dele).
+  let dragging = false;
+  const moveTo = (clientX) => {
+    const r = cmp.getBoundingClientRect();
+    const v = Math.min(100, Math.max(0, ((clientX - r.left) / r.width) * 100));
+    range.value = v;
+    setPos(v);
+  };
+  cmp.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    cmp.setPointerCapture(e.pointerId);
+    moveTo(e.clientX);
+  });
+  cmp.addEventListener("pointermove", (e) => { if (dragging) moveTo(e.clientX); });
+  const stop = () => { dragging = false; };
+  cmp.addEventListener("pointerup", stop);
+  cmp.addEventListener("pointercancel", stop);
+
   document.querySelectorAll(".case").forEach((btn) => {
     btn.addEventListener("click", () => {
       const n = btn.dataset.case;
